@@ -1,4 +1,4 @@
-module github.com/erivni/rtcp
+module github.com/pion/rtcp
 
 go 1.13
 
