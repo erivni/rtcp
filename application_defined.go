@@ -5,6 +5,7 @@ package rtcp
 
 import (
 	"encoding/binary"
+	"fmt"
 )
 
 // ApplicationDefined represents an RTCP application-defined packet.
@@ -78,6 +79,8 @@ func (a *ApplicationDefined) Unmarshal(rawPacket []byte) error {
 	   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	   |                          name (ASCII)                         |
 	   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	   |                           MediaSSRC                           |
+	   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	   |                   application-dependent data                ...
 	   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	*/
@@ -122,4 +125,10 @@ func (a *ApplicationDefined) MarshalSize() int {
 		paddingSize = 0
 	}
 	return 16 + dataLength + paddingSize
+}
+
+func (a ApplicationDefined) String() string {
+	out := fmt.Sprintf("ApplicationDefined from %x\n", a.SenderSSRC)
+	out += fmt.Sprintf("Subtype: %d, Name: %s, MediaSSRC:%x, Data:0x%X", a.SubType, a.Name, a.MediaSSRC, a.Data)
+	return out
 }
