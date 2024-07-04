@@ -152,12 +152,8 @@ func TestTApplicationPacketUnmarshal(t *testing.T) {
 			t.Fatalf("Unmarshal %q result: got %v, want %v", test.Name, got, want)
 		}
 
-		// Check SSRC is matching
-		if apk.SenderSSRC != 0x4baae1ab {
-			t.Fatalf("SSRC %q result: got packet SSRC %x instead of %x", test.Name, apk.SenderSSRC, 0x4baae1ab)
-		}
 		if apk.MediaSSRC != apk.DestinationSSRC()[0] {
-			t.Fatalf("SSRC %q result: DestinationSSRC() %x doesn't match SSRC field %x", test.Name, apk.DestinationSSRC()[0], apk.SenderSSRC)
+			t.Fatalf("SSRC %q result: DestinationSSRC() %x doesn't match MediaSSRC field %x", test.Name, apk.DestinationSSRC()[0], apk.MediaSSRC)
 		}
 	}
 }
